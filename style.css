@@ -98,7 +98,11 @@ body {
 }
 
 .works-list li img {
-  width: 99%;
+  /* width: 99%; */
+  width: 350px;
+  height: 300px;
+  border: 1px solid #ccc;
+  border-radius: 30px;
   border: 1px solid #ccc;
 }
 
@@ -123,6 +127,7 @@ body {
   margin-right: 10px;
   font-size: 15px;
   text-decoration: none;
+  border-radius: 30px;
   color: #000;
 }
 

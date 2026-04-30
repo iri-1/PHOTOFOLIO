@@ -1,220 +1,327 @@
-@charset "UFT-8";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
-/* 画面のスタイルシート */
+:root {
+  --primary: #00abae;
+  --primary-glow: rgba(0, 171, 174, 0.3);
+  --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --text-dark: #1e293b;
+  --text-muted: #64748b;
+  --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  --card-hover-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: "Noto Sans JP", sans-serif;
+  font-family: 'Inter', 'Noto Sans JP', sans-serif;
   margin: 0;
-  min-width: 1076px;
+  background: var(--bg-gradient);
+  color: var(--text-dark);
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
 .color-green {
-  color: #00abae;
+  color: var(--primary);
+  font-weight: 700;
 }
 
-.sub-title {
-  font-size: 32px;
+/* Header */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 1rem 0;
 }
 
-/* [header]のスタイルシート */
 .block-header {
-  margin: 10px 0;
-  padding: 0 20px 10px;
-  box-shadow: 0px 10px 10px -5px rgba(204, 204, 204, 0.3);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: left;
 }
 
 .block-header a {
-  font-size: 40px;
-  color: #000;
+  font-size: 1.8rem;
+  color: var(--text-dark);
   text-decoration: none;
-  letter-spacing: 1px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
-/* mainのスタイルシート */
+/* Main Layout */
 .block-main {
-  text-align: center;
-  margin: 100px 0;
+  max-width: 1200px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 3rem;
+  align-items: start;
 }
 
-/* profileのスタイルシート */
+/* Sidebar / Profile */
+.box-profile {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: var(--card-shadow);
+  text-align: center;
+  position: sticky;
+  top: 100px;
+}
 
-.item-list {
-  width: 100%;
-  max-width: 348px;
-  margin: 0 auto;
+.sub-title {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  display: inline-block;
+}
+
+.sub-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+.item-list img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  box-shadow: 0 0 20px var(--primary-glow);
+  margin-bottom: 1.5rem;
 }
 
 .item-list b {
   display: block;
-  font-size: 24px;
-  font-weight: normal;
-  margin: 20px 0 30px;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.item-list .color-green {
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  display: block;
+  font-weight: 500;
 }
 
 .item-list p {
-  font-size: 13px;
-  line-height: normal;
+  font-size: 0.95rem;
+  color: var(--text-muted);
   text-align: left;
 }
 
 .icon-list {
   list-style: none;
-  width: 100%;
-  max-width: 247px;
-  margin: 30px auto;
   padding: 0;
   display: flex;
-  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
-.icon-list li {
-  margin-right: 22px;
+.icon-list img {
+  width: 28px;
+  height: 28px;
+  transition: transform 0.3s ease;
 }
 
-/* worksのスタイルシート */
+.icon-list a:hover img {
+  transform: translateY(-5px) scale(1.1);
+}
+
+/* Works Section */
 .box-works {
-  margin: 80px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
 .works-list {
   list-style: none;
-  width: 100%;
-  max-width: 1076px;
-  margin: 30px auto;
   padding: 0;
-  text-align: left;
-  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 0;
 }
 
 .works-list li {
-  display: block;
-  float: left;
-  width: 100%;
-  max-width: 348px;
-  margin-right: 15px;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid #f1f5f9;
+  display: flex;
+  flex-direction: column;
 }
 
-.works-list li:last-child {
-  margin-right: 0;
+.works-list li:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--card-hover-shadow);
 }
 
 .works-list li img {
-  /* width: 99%; */
-  width: 330px;
-  height: 300px;
-  border: 1px solid #ccc;
-  border-radius: 30px;
-  border: 1px solid #ccc;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .works-list li h3 {
-  font-size: 24px;
-  margin: 10px 0;
+  padding: 1.5rem 1.5rem 0.5rem;
+  margin: 0;
+  font-size: 1.25rem;
 }
 
 .works-list li span {
-  font-size: 18px;
+  padding: 0 1.5rem;
+  font-size: 0.85rem;
+  color: var(--primary);
+  font-weight: 500;
 }
 
 .works-list .link {
+  padding: 1.5rem;
+  margin-top: auto;
   display: flex;
-  -webkit-justify-content: left;
-  margin-top: 15px;
+  gap: 0.75rem;
 }
 
 .works-list .link a {
-  background-color: rgb(226, 226, 226);
-  padding: 5px 20px;
-  margin-right: 10px;
-  font-size: 15px;
   text-decoration: none;
-  border-radius: 30px;
-  color: #000;
+  font-size: 0.85rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px;
+  background: #f1f5f9;
+  color: var(--text-dark);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
 }
 
-/* footer のスタイルシート */
-.block-footer p {
-  clear: both;
-  margin: 50px 0 20px;
+.works-list .link a:hover {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+/* Calendar & Time Widget */
+.widget-container {
+  margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid var(--glass-border);
+}
+
+#current-date-time {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+  display: block;
   text-align: center;
-  font-size: 15px;
 }
 
-/* スマホ用スタイルシート */
-@media screen and (max-width:767px) {
-  body {
-    min-width: 100%;
-  }
-  .sub-title {
-    font-size: 24px;
-  }
+.calendar-widget {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
 
-  /* [header]のスタイルシート */
-  .block-header {
-    padding: 0 10px 10px;
-    box-shadow: 0px 8px 8px -5px rgba(204, 204, 204, 0.3);
-  }
+#calendar-month-year {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  display: block;
+  text-align: center;
+}
 
-  .block-header a {
-    font-size: 31px;
-  }
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  font-size: 0.75rem;
+}
 
-  /* mainのスタイルシート */
+.calendar-day {
+  text-align: center;
+  padding: 6px 0;
+  border-radius: 4px;
+}
+
+.calendar-day.header {
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.calendar-day.today {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+}
+
+.calendar-day.empty {
+  visibility: hidden;
+}
+
+/* Footer */
+.block-footer {
+  margin-top: 4rem;
+  padding: 3rem 0;
+  background: #fff;
+  text-align: center;
+  border-top: 1px solid #e2e8f0;
+}
+
+.block-footer p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
   .block-main {
-    margin: 50px 0;
-    text-align: center;
+    grid-template-columns: 1fr;
   }
-
-  /* profileのスタイルシート */
-
   .box-profile {
-    padding: 0 10px;
+    position: static;
+    max-width: 500px;
+    margin: 0 auto;
   }
+}
 
-  item-list {
-    max-width: 100%;
+@media (max-width: 640px) {
+  .block-main {
+    margin: 2rem auto;
+    padding: 0 1rem;
   }
-
-  .item-list b {
-    font-size: 18px;
+  .box-profile {
+    padding: 1.5rem;
   }
-
-  .item-list p {
-    font-size: 14px;
-    line-height: normal;
-    text-align:left;
-  }
-
-  icon-list {
-    max-width: 100%;
-  }
-
-  .icon-list li {
-    margin-right: 25px
-  }
-
-  /* worksのスタイルシート */
-  .box-works {
-    margin: 60px 0 0;
-    padding: 0 10px;
-  }
-
   .works-list {
-    max-width: 100%;
+    grid-template-columns: 1fr;
   }
-
-  .works-list li {
-    max-width: 100%;
-    float: none;
-    margin-right: 0;
-    margin-bottom: 30px;
-  }
-
-  .works-list li h3 {
-    font-size: 20px;
-    margin: 5px 0;
-  }
-  .works-list li span {
-    font-size: 14px;
-  }
-
 }

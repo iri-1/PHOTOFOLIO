@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理画面 - Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-wrapper {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .admin-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--card-shadow);
+            padding: 2.5rem;
+        }
+
+        .login-card {
+            max-width: 400px;
+            margin: 100px auto;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-family: inherit;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 12px var(--primary-glow);
+            transform: translateY(-2px);
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        #admin-content {
+            display: none;
+        }
+
+        .works-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+
+        .works-table th,
+        .works-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        .btn-danger {
+            background: #ff4d4d;
+            color: #fff;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-container"
+            style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            <h1 class="block-header" style="margin: 0; padding: 0;">
+                <a href="index.html"><span class="color-green">P</span>ortfolio Admin</a>
+            </h1>
+            <a href="index.html" class="btn" style="font-size: 0.8rem; color: var(--text-muted);">サイトへ戻る</a>
+        </div>
+    </header>
+
+    <div class="admin-wrapper">
+        <!-- ログイン画面 -->
+        <div id="login-section" class="admin-card login-card">
+            <h2 style="margin-bottom: 2rem;">ログイン</h2>
+            <div class="form-group">
+                <label>管理者ID</label>
+                <input type="text" id="login-id" placeholder="IDを入力">
+            </div>
+            <div class="form-group">
+                <label>パスワード</label>
+                <input type="password" id="login-pass" placeholder="Passwordを入力">
+            </div>
+            <button class="btn btn-primary btn-block" onclick="handleLogin()">ログイン</button>
+            <p id="login-error" style="color: #ff4d4d; font-size: 0.8rem; margin-top: 1rem; display: none;">
+                IDまたはパスワードが違います。</p>
+        </div>
+
+        <!-- 管理画面コンテンツ -->
+        <div id="admin-content">
+            <div class="admin-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2 style="margin: 0;">設定管理</h2>
+                    <button class="btn" onclick="handleLogout()"
+                        style="font-size: 0.8rem; background: #eee;">ログアウト</button>
+                </div>
+
+                <h3>News内容の編集</h3>
+                <div class="form-group">
+                    <textarea id="news-editor" rows="4"></textarea>
+                    <p style="font-size: 0.8rem; color: #666;">※HTMLタグが使用できます (&lt;br&gt; など)</p>
+                </div>
+                <button class="btn btn-primary" onclick="saveNews()">Newsを保存</button>
+
+                <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #eee;">
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>作品一覧管理</h3>
+                    <button class="btn btn-primary" onclick="openModal()">新規作品追加</button>
+                </div>
+
+                <table class="works-table">
+                    <thead>
+                        <tr>
+                            <th>順序</th>
+                            <th>タイトル</th>
+                            <th>技術</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="works-list-admin"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 作品編集モーダル -->
+    <div id="work-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-title">作品の追加/編集</h3>
+            <input type="hidden" id="edit-id">
+            <div class="form-group">
+                <label>表示順 (数字が小さい順に表示)</label>
+                <input type="number" id="work-order" value="0">
+            </div>
+            <div class="form-group">
+                <label>タイトル</label>
+                <input type="text" id="work-title">
+            </div>
+            <div class="form-group">
+                <label>使用技術</label>
+                <input type="text" id="work-tech" placeholder="HTML / CSS / ...">
+            </div>
+            <div class="form-group">
+                <label>画像URL (img/xxx.png など)</label>
+                <input type="text" id="work-image">
+            </div>
+            <div class="form-group">
+                <label>WebサイトURL</label>
+                <input type="text" id="work-web">
+            </div>
+            <div class="form-group">
+                <label>Github URL</label>
+                <input type="text" id="work-github">
+            </div>
+            <div class="form-group">
+                <label>補足情報 (テストID等)</label>
+                <textarea id="work-info" rows="2"></textarea>
+            </div>
+            <div class="action-btns">
+                <button class="btn btn-primary" onclick="saveWork()">保存</button>
+                <button class="btn" onclick="closeModal()">キャンセル</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbxabvg7sLHtw1lxhbUs3021C945dyOBIpYXeDh6ozV9zdBArHxUoyyW8m8B2nsCX1wIPw/exec';
+
+        let allData = { settings: {}, works: [] };
+        let auth = { id: '', pass: '' };
+
+        async function handleLogin() {
+            const id = document.getElementById('login-id').value;
+            const pass = document.getElementById('login-pass').value;
+            const errorEl = document.getElementById('login-error');
+
+            // 認証チェックを兼ねてデータ取得を試みる
+            // GAS側で認証に失敗するとエラーが返るようにしている
+            try {
+                // 実際にはPOSTで認証チェック専用の命令を送るのが理想だが、
+                // 今回は簡易的に一度Settingsの更新（空打ち）などでチェックするか、
+                // もしくはそのままデータ取得後に表示を切り替える
+                const success = await loadData(id, pass);
+                if (success) {
+                    auth.id = id;
+                    auth.pass = pass;
+                    document.getElementById('login-section').style.display = 'none';
+                    document.getElementById('admin-content').style.display = 'block';
+                    errorEl.style.display = 'none';
+                } else {
+                    errorEl.style.display = 'block';
+                }
+            } catch (err) {
+                console.error(err);
+                errorEl.textContent = '通信エラーが発生しました。URLや接続を確認してください。';
+                errorEl.style.display = 'block';
+            }
+        }
+
+        function handleLogout() {
+            auth = { id: '', pass: '' };
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('admin-content').style.display = 'none';
+            document.getElementById('login-id').value = '';
+            document.getElementById('login-pass').value = '';
+        }
+
+        async function loadData(id, pass) {
+            try {
+                const response = await fetch(GAS_API_URL);
+                allData = await response.json();
+
+                // 初回ログイン時は、認証が正しいか確認するためにダミーのPOSTを送って確認することも可能ですが、
+                // ここではデータが取得できればOKとします（POST時に再度認証されます）
+
+                document.getElementById('news-editor').value = allData.settings.NewsContent || '';
+                renderAdminWorks();
+                return true;
+            } catch (err) {
+                console.error(err);
+                return false;
+            }
+        }
+
+        function renderAdminWorks() {
+            const tbody = document.getElementById('works-list-admin');
+            tbody.innerHTML = '';
+            allData.works.sort((a, b) => a.order - b.order).forEach((work) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${work.order}</td>
+                    <td>${work.title}</td>
+                    <td>${work.tech}</td>
+                    <td class="action-btns">
+                        <button class="btn btn-sm btn-primary" onclick="editWork('${work.id}')">編集</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteWork('${work.id}')">削除</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function saveNews() {
+            const news = document.getElementById('news-editor').value;
+            await postToGAS({
+                type: 'updateSettings',
+                key: 'NewsContent',
+                value: news
+            });
+        }
+
+        async function saveWork() {
+            const id = document.getElementById('edit-id').value || 'work_' + Date.now();
+            const newWork = {
+                id: id,
+                order: parseInt(document.getElementById('work-order').value),
+                title: document.getElementById('work-title').value,
+                tech: document.getElementById('work-tech').value,
+                imageUrl: document.getElementById('work-image').value,
+                webUrl: document.getElementById('work-web').value,
+                githubUrl: document.getElementById('work-github').value,
+                info: document.getElementById('work-info').value
+            };
+
+            const works = [...allData.works];
+            const existingIndex = works.findIndex(w => w.id === id);
+            if (existingIndex > -1) works[existingIndex] = newWork;
+            else works.push(newWork);
+
+            await postToGAS({ type: 'updateWorks', works: works });
+            closeModal();
+        }
+
+        async function deleteWork(id) {
+            if (!confirm('本当に削除しますか？')) return;
+            const works = allData.works.filter(w => w.id !== id);
+            await postToGAS({ type: 'updateWorks', works: works });
+        }
+
+        function editWork(id) {
+            const work = allData.works.find(w => w.id === id);
+            document.getElementById('edit-id').value = work.id;
+            document.getElementById('work-order').value = work.order;
+            document.getElementById('work-title').value = work.title;
+            document.getElementById('work-tech').value = work.tech;
+            document.getElementById('work-image').value = work.imageUrl;
+            document.getElementById('work-web').value = work.webUrl;
+            document.getElementById('work-github').value = work.githubUrl;
+            document.getElementById('work-info').value = work.info;
+            openModal('作品の編集');
+        }
+
+        async function postToGAS(payload) {
+            // 認証情報を追加
+            payload.adminId = auth.id;
+            payload.password = auth.pass;
+
+            try {
+                // GASはリダイレクトを伴うため、mode: 'cors' でフェッチします
+                const response = await fetch(GAS_API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert('保存しました。');
+                    loadData();
+                } else {
+                    alert('エラー: ' + result.message);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('送信に失敗しました。接続設定を確認してください。');
+            }
+        }
+
+        function openModal(title = '新規作品追加') {
+            if (title === '新規作品追加') {
+                document.getElementById('edit-id').value = '';
+                document.getElementById('work-order').value = allData.works.length;
+                document.getElementById('work-title').value = '';
+                document.getElementById('work-tech').value = '';
+                document.getElementById('work-image').value = 'img/';
+                document.getElementById('work-web').value = '';
+                document.getElementById('work-github').value = '';
+                document.getElementById('work-info').value = '';
+            }
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('work-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('work-modal').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>

@@ -12,11 +12,14 @@
 
 <body>
   <header>
-    <h1 class="block-header">
-      <a href="">
-        <span class="color-green">P</span>ortfolio
-      </a>
-    </h1>
+    <div class="header-container" style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+      <h1 class="block-header" style="margin: 0; padding: 0;">
+        <a href="index.html">
+          <span class="color-green">P</span>ortfolio
+        </a>
+      </h1>
+      <a href="admin.html" class="btn-admin-link" style="text-decoration: none; font-size: 0.9rem; font-weight: 700; color: var(--text-muted); border: 1px solid var(--glass-border); padding: 0.5rem 1.2rem; border-radius: 50px; transition: all 0.3s;">管理</a>
+    </div>
   </header>
   <div class="block-main">
     <div class="box-profile">
@@ -27,7 +30,7 @@
         <img src="img/iri.png" alt="プロフィール画像">
         <b>伊里 アクバル</b>
         <span class="color-green">HTML / CSS / PHP / MySQL / Laravel / Adobe XD</span>
-        <p> ご覧下さいまして誠にありがとうございます。<br>
+        <p id="news-content"> ご覧下さいまして誠にありがとうございます。<br>
         こちらのサイトは伊里の試作のために作成した作品になります。</p>
       </div>
       <ul class="icon-list">
@@ -53,89 +56,40 @@
       </div>
     </div>
 
-    <div class="box-works">
-      <h2 class="sub-title">
-        <span class="color-green">W</span>orks(作品一覧)</h2>
+    <div class="box-main-content">
+      <div class="box-news">
+        <h2 class="sub-title">
+          <span class="color-green">N</span>ews
+        </h2>
+        <div id="news-board" class="news-board">
+          <!-- GASからのお知らせがここに表示されます -->
+          <div class="loading-spinner">Loading News...</div>
+        </div>
+      </div>
+
+      <div class="box-works">
+        <h2 class="sub-title">
+          <span class="color-green">W</span>orks(作品一覧)
+        </h2>
         
-      <ul class="works-list">
-        <li>
-          <img src="img/MyBBS2.png" alt="worksの画像">
-          <h3>MyBBS</h3>
-          <span>HTML / CSS / PHP / MySQL / Laravel</span>
-          <div class="link">
-            <a href="https://iri-1.com/MyBBS/public/" target="_blank">Web サイト</a>
-            <a href="https://github.com/iri-1/MyBBS" target="_blank">Github</a>
-          </div>
-          <div style="padding: 0 1.5rem 1.5rem; font-size: 0.75rem; color: #64748b;">
-            テスト用ID: admin@tech.com<br>
-            パスワード: admin1234
-          </div>
-        </li>
-        <li>
-          <img src="img/item_management.png" alt="worksの画像">
-          <h3>商品管理システム</h3>
-          <span>AdminLTE / Bootstrap5 / Laravel</span>
-          <div class="link">
-            <a href="https://iri-1.com/item-management/public/" target="_blank">Web サイト</a>
-            <a href="https://github.com/iri-1/item-management" target="_blank">Github</a>
-          </div>
-          <div style="padding: 0 1.5rem 1.5rem; font-size: 0.75rem; color: #64748b;">
-            テスト用ID: admin@tech.com<br>
-            パスワード: admin1234
-          </div>
-        </li>
-        <li>
-          <img src="img/work_1.jpeg" alt="worksの画像">
-          <h3>Twitterクローン</h3>
-          <span>PHP / MySQL / jQuery</span>
-          <div class="link">
-            <a href="https://iri-1.com/TwitterClone/" target="_blank">Web サイト</a>
-            <a href="https://github.com/iri-1/TwitterClone" target="_blank">Github</a>
-          </div>
-          <div style="padding: 0 1.5rem 1.5rem; font-size: 0.75rem; color: #64748b;">
-            テスト用ID: admin@tech.com<br>
-            パスワード: admin1234
-          </div>
-        </li>
-      </ul>
-        
-      <ul class="works-list">
-        <li>
-          <img src="img/member2.png" alt="worksの画像">
-          <h3>会員管理</h3>
-          <span>HTML / CSS / PHP / MySQL / Laravel</span>
-          <div class="link">
-            <a href="https://iri-1.com/Member_laravel/public/" target="_blank">Web サイト</a>
-            <a href="https://github.com/iri-1/Member_laravel" target="_blank">Github</a>
-          </div>
-        </li>
-        <li>
-          <img src="img/todo.png" alt="worksの画像">
-          <h3>TODO-Laravel</h3>
-          <span>HTML / PHP / MySQL / Laravel</span>
-          <div class="link">
-            <a href="https://iri-1.com/todo-laravel/public/" target="_blank">Web サイト</a>
-            <a href="https://github.com/iri-1/todo-laravel" target="_blank">Github</a>
-          </div>
-          <div style="padding: 0 1.5rem 1.5rem; font-size: 0.75rem; color: #64748b;">
-            テスト用ID: admin@tech.com<br>
-            パスワード: admin1234
-          </div>
-        </li>
-        <li>
-          <img src="img/todo.png" alt="worksの画像">
-          <h3>作品３</h3>
-          <span>HTML / CSS / PHP / MySQL</span>
-          <div class="link">
-            <a href="https://iri-1.com/todo-laravel/public/" target="_blank">Web サイト</a>
-            <a href="https://github.com/iri-1/todo-laravel" target="_blank">Github</a>
-          </div>
-        </li>
-      </ul>
+        <ul id="works-container" class="works-list">
+          <!-- 読み込み時にここに作品が追加されます -->
+        </ul>
+      </div>
     </div>
   </div>
+  
   <footer class="block-footer">
-    <p>Copyright @ IRI AKBAR ., Inc.</p>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <span class="color-green">P</span>ortfolio
+      </div>
+      <p>&copy; 2026 IRI AKBAR. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="admin.html">Admin</a>
+      </div>
+    </div>
   </footer>
 
   <script src="script.js"></script>
